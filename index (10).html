@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f8fa">
+  <meta name="description" content="AI Games — a collection of games and projects.">
+  <title>AI Games</title>
+  <style>
+body {
+    background-color: black;
+}
+    :root {
+      color-scheme: dark;
+      --page: #000000;
+      --surface: #ffffff;
+      --ink: #000000;
+      --muted: #000000;
+      --line: #e7e9ed;
+      --accent: #2768d8;
+      --accent-soft: #eaf1ff;
+      --shadow: 0 5px 18px rgba(24, 34, 52, .055);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font: 15px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: inherit; }
+    .shell { width: min(1080px, calc(100% - 40px)); margin: 0 auto; }
+    .topbar {
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.82);
+    }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; font-weight: 750; letter-spacing: -.035em; font-size: 18px; }
+    .brand-mark {
+      width: 32px; height: 32px; display: grid; place-items: center; border-radius: 9px;
+      color: white; background: #242a34; font-size: 15px; font-weight: 800;
+    }
+    .top-note { color: var(--muted); font-size: 13px; }
+    main { padding: 52px 0 76px; }
+    .intro { margin-bottom: 34px; }
+    .eyebrow { color: var(--accent); font-weight: 700; font-size: 12px; letter-spacing: .11em; text-transform: uppercase; margin: 0 0 9px; }
+    h1 { font-size: clamp(34px, 5vw, 46px); line-height: 1.08; letter-spacing: -.055em; margin: 0; font-weight: 780; }
+    .subtitle { color: var(--muted); margin: 12px 0 0; font-size: 16px; }
+    .tools { display: flex; gap: 12px; align-items: center; justify-content: space-between; margin: 30px 0 22px; flex-wrap: wrap; }
+    .search-wrap { position: relative; flex: 1 1 280px; max-width: 440px; }
+    .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #8b929d; pointer-events: none; }
+    #search {
+      width: 100%; height: 43px; border: 1px solid var(--line); border-radius: 10px; background: white;
+      padding: 0 14px 0 41px; font: inherit; outline: none; box-shadow: 0 1px 2px rgba(0,0,0,.02);
+    }
+    #search:focus { border-color: #9bb8ed; box-shadow: 0 0 0 3px rgba(39,104,216,.10); }
+    .filters { display: flex; gap: 7px; flex-wrap: wrap; }
+    .filter {
+      border: 1px solid var(--line); background: white; color: #606875; border-radius: 8px;
+      padding: 8px 12px; font: 600 13px inherit; cursor: pointer; transition: .16s ease;
+    }
+    .filter:hover { border-color: #c8d1df; color: var(--ink); }
+    .filter.active { background: var(--accent-soft); border-color: #d6e3ff; color: #245db8; }
+    .section-head { display: flex; align-items: baseline; justify-content: space-between; margin: 0 0 14px; }
+    h2 { margin: 0; font-size: 18px; letter-spacing: -.025em; }
+    #count { color: var(--muted); font-size: 13px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(245px, 1fr)); gap: 18px; }
+    .project {
+      min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 13px;
+      background: var(--surface); box-shadow: var(--shadow); text-decoration: none;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .project:hover { transform: translateY(-3px); border-color: #d4dbe5; box-shadow: 0 12px 28px rgba(24,34,52,.10); }
+    .thumb { display: block; width: 100%; aspect-ratio: 16 / 10; background: #dce3e7; overflow: hidden; }
+    .thumb svg { display: block; width: 100%; height: 100%; }
+    .project-body { padding: 15px 16px 16px; }
+    .project-title-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .project h3 { margin: 0; font-size: 16px; letter-spacing: -.025em; }
+    .arrow { color: #8a929e; font-size: 18px; transition: transform .18s ease; }
+    .project:hover .arrow { transform: translate(2px,-2px); color: var(--accent); }
+    .description { color: var(--muted); font-size: 13px; margin: 7px 0 12px; }
+    .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag { color: #596474; background: #f1f3f6; border-radius: 5px; padding: 3px 7px; font-size: 11px; font-weight: 650; }
+    .empty { display: none; padding: 32px 18px; border: 1px dashed #d9dee6; border-radius: 12px; text-align: center; color: var(--muted); background: rgba(255,255,255,.55); }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 30px; color: #858c97; font-size: 12px; }
+    @media (max-width: 600px) {
+      .shell { width: min(100% - 28px, 1080px); }
+      main { padding-top: 38px; }
+      .topbar { height: 60px; }
+      .top-note { font-size: 11px; }
+      .tools { align-items: stretch; }
+      .search-wrap { max-width: none; flex-basis: 100%; }
+      .filters { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 3px; }
+      .filter { white-space: nowrap; }
+      .grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell" style="display:flex;align-items:center;justify-content:space-between;width:min(1080px,calc(100% - 40px))">
+      <a class="brand" href="./" aria-label="AI Games home"><span class="brand-mark">AI</span><span>AI Games</span></a>
+      <span class="top-note">Games &amp; projects</span>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="intro">
+      <p class="eyebrow">Project directory</p>
+     </section>
+    <section aria-label="Browse projects">
+      <div class="tools">
+        <label class="search-wrap">
+          <svg class="search-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4.2 4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input id="search" type="search" placeholder="Search projects..." autocomplete="off" aria-label="Search projects">
+        </label>
+        <div class="filters" role="group" aria-label="Filter projects">
+          <button class="filter active" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter" type="button" data-filter="game" aria-pressed="false">Games</button>
+          <button class="filter" type="button" data-filter="racing" aria-pressed="false">Racing</button>
+          <button class="filter" type="button" data-filter="recent" aria-pressed="false">Recently added</button>
+        </div>
+      </div>
+
+      <div class="section-head"><h2>Projects</h2><span id="count">1 project</span></div>
+      <div class="grid" id="projectGrid">
+        <a class="project" href="https://rehanabdullah1.github.io/AI-A1109/RC/" target="_blank" rel="noopener noreferrer" data-name="rc car game a1109 prototype racing" data-tags="game racing recent">
+          <span class="thumb" aria-label="Illustration of the green A1109 Prototype RC racing car" role="img">
+            <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#dfe9ed"/><stop offset="1" stop-color="#aab9bf"/></linearGradient>
+                <linearGradient id="track" x2="0" y2="1"><stop stop-color="#59646a"/><stop offset="1" stop-color="#252d32"/></linearGradient>
+                <linearGradient id="body" x2=".15" y2="1"><stop stop-color="#8be0ad"/><stop offset=".34" stop-color="#39a86e"/><stop offset="1" stop-color="#12613e"/></linearGradient>
+                <linearGradient id="glass" x2="0" y2="1"><stop stop-color="#52636b"/><stop offset="1" stop-color="#111b22"/></linearGradient>
+                <linearGradient id="rim" x2="1" y2="1"><stop stop-color="#e7edf0"/><stop offset="1" stop-color="#68747a"/></linearGradient>
+                <filter id="shadow" x="-30%" y="-50%" width="160%" height="220%"><feGaussianBlur stdDeviation="13"/></filter>
+              </defs>
+              <rect width="800" height="500" fill="url(#sky)"/>
+              <path d="M0 250 800 205V500H0Z" fill="#7d8c8d" opacity=".5"/>
+              <path d="M0 328 800 263V500H0Z" fill="url(#track)"/>
+              <path d="m0 356 800-66" stroke="#e8ece9" stroke-width="7" opacity=".75"/>
+              <path d="m0 410 800-66" stroke="#c8d0cf" stroke-width="3" stroke-dasharray="34 27" opacity=".6"/>
+              <g opacity=".55" fill="#eef1ed"><path d="m40 274 720-59 0 7-720 59z"/><path d="M95 252v25m95-33v25m95-33v25m95-33v25m95-33v25m95-33v25m95-33v25" stroke="#eef1ed" stroke-width="3"/></g>
+              <ellipse cx="420" cy="365" rx="250" ry="54" fill="#101619" opacity=".42" filter="url(#shadow)"/>
+              <!-- rear wing and supports -->
+              <path d="m222 239 10-42 18 2 1 40m313-7 8-43 18-2 2 47" fill="#182329"/>
+              <path d="m202 197 388-36 9 17-390 39z" fill="#10191e" stroke="#718087" stroke-width="4"/>
+              <path d="m219 199 354-33" stroke="#39a86e" stroke-width="5"/>
+              <!-- tires -->
+              <g fill="#101619" stroke="#29343a" stroke-width="7">
+                <ellipse cx="250" cy="337" rx="43" ry="74" transform="rotate(10 250 337)"/>
+                <ellipse cx="554" cy="310" rx="38" ry="68" transform="rotate(10 554 310)"/>
+              </g>
+              <g fill="url(#rim)" stroke="#303b40" stroke-width="8">
+                <ellipse cx="253" cy="337" rx="22" ry="42" transform="rotate(10 253 337)"/>
+                <ellipse cx="555" cy="310" rx="20" ry="38" transform="rotate(10 555 310)"/>
+              </g>
+              <g stroke="#59666c" stroke-width="5"><path d="m253 300 0 74m-18-38h38m282-60v68m-17-34h35"/></g>
+              <!-- car body -->
+              <path d="M143 317c22-36 54-63 101-82l101-49c30-15 67-24 107-22l91 6c37 3 66 22 86 49l51 57c15 17 20 36 12 49-10 17-45 27-91 32l-336 36c-66 7-115-6-132-30-10-14-7-30 10-46Z" fill="url(#body)" stroke="#14583c" stroke-width="6"/>
+              <path d="m259 236 101-48c31-14 61-19 94-17l76 5c22 2 42 13 58 30l31 39-171 23-225 20z" fill="url(#glass)" stroke="#1c4c39" stroke-width="6"/>
+              <path d="m376 190-20 94m119-110 19 99" stroke="#91a5a7" stroke-width="5" opacity=".6"/>
+              <path d="m155 315 82-8 24 22-19 28-89 9c-22-11-22-31 2-51Z" fill="#16804f"/>
+              <path d="m591 267 78-7 31 34-13 26-70 9-39-30z" fill="#16804f"/>
+              <path d="m146 329 70-7-9 23-73 8z" fill="#f4f5df"/>
+              <path d="m652 294 43-4 17 19-47 9z" fill="#f4f5df"/>
+              <path d="m205 370 393-43" stroke="#b3f2c8" stroke-width="5" opacity=".8"/>
+              <path d="m314 294 62-6m36-4 53-6" stroke="#d2f8df" stroke-width="4" opacity=".8"/>
+              <path d="m319 351 22-3 8 11-24 3z" fill="#dce8e3" opacity=".8"/>
+              <path d="m450 336 42-5 5 10-42 6z" fill="#dce8e3" opacity=".8"/>
+              <path d="m278 257 67-32" stroke="#b6f1cc" stroke-width="5" opacity=".65"/>
+              <path d="m504 222 38 4" stroke="#b6f1cc" stroke-width="4" opacity=".55"/>
+              <text x="405" y="319" fill="#eaffef" font-family="Arial,sans-serif" font-size="19" font-weight="800" letter-spacing="3" transform="rotate(-6 405 319)">A1109</text>
+              <rect x="26" y="24" width="118" height="31" rx="15.5" fill="#17242a" opacity=".78"/>
+              <circle cx="44" cy="39.5" r="4" fill="#67d995"/><text x="56" y="44" fill="#fff" font-family="Arial,sans-serif" font-size="12" font-weight="700" letter-spacing="1.2">PROTOTYPE</text>
+            </svg>
+          </span>
+          <div class="project-body">
+            <div class="project-title-row"><h3>RC Car Game</h3><span class="arrow" aria-hidden="true">↗</span></div>
+            <p class="description">Take the A1109 Prototype out for a race.</p>
+            <div class="tags"><span class="tag">Game</span><span class="tag">Racing</span><span class="tag">3D</span></div>
+          </div>
+        </a>
+      </div>
+      <div class="empty" id="empty">No projects match that search.</div>
+    </section>
+  </main>
+
+  <footer><div class="shell">AI Games <span aria-hidden="true">·</span> A small project collection</div></footer>
+
+  <script>
+    const search = document.getElementById('search');
+    const cards = [...document.querySelectorAll('.project')];
+    const filters = [...document.querySelectorAll('.filter')];
+    const count = document.getElementById('count');
+    const empty = document.getElementById('empty');
+    let activeFilter = 'all';
+
+    function updateProjects() {
+      const query = search.value.trim().toLowerCase();
+      let visible = 0;
+      cards.forEach(card => {
+        const matchesText = (card.dataset.name + ' ' + card.innerText).toLowerCase().includes(query);
+        const tags = card.dataset.tags.split(' ');
+        const matchesFilter = activeFilter === 'all' || tags.includes(activeFilter);
+        const show = matchesText && matchesFilter;
+        card.hidden = !show;
+        if (show) visible++;
+      });
+      count.textContent = `${visible} ${visible === 1 ? 'project' : 'projects'}`;
+      empty.style.display = visible ? 'none' : 'block';
+    }
+
+    search.addEventListener('input', updateProjects);
+    filters.forEach(button => button.addEventListener('click', () => {
+      activeFilter = button.dataset.filter;
+      filters.forEach(item => {
+        const selected = item === button;
+        item.classList.toggle('active', selected);
+        item.setAttribute('aria-pressed', String(selected));
+      });
+      updateProjects();
+    }));
+    updateProjects();
+  </script>
+</body>
+</html>
